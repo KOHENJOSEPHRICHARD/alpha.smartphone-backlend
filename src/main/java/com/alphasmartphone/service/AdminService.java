@@ -1,4 +1,4 @@
-package com.alphasmartphone.service;
+    package com.alphasmartphone.service;
 
 import com.alphasmartphone.exception.ResourceNotFoundException;
 import com.alphasmartphone.model.Admin;

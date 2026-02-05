@@ -25,6 +25,7 @@
         <java.version>17</java.version>
         <jwt.version>0.12.3</jwt.version>
         <skipTests>true</skipTests>
+        <lombok.version>1.18.26</lombok.version>
     </properties>
 
     <dependencies>
@@ -83,6 +84,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
             <optional>true</optional>
         </dependency>
 
@@ -121,6 +123,21 @@
                     <layers>
                         <enabled>true</enabled>
                     </layers>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <release>${java.version}</release>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>
