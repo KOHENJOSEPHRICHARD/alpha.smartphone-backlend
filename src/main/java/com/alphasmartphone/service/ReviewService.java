@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ public class ReviewService {
     private final PhoneRepository phoneRepository;
     
     public Review createReview(Long phoneId, Review review) {
-        Phone phone = phoneRepository.findById(phoneId)
+        Phone phone = phoneRepository.findById(Objects.requireNonNull(phoneId))
                 .orElseThrow(() -> new ResourceNotFoundException("Phone not found"));
         review.setPhone(phone);
         return reviewRepository.save(review);

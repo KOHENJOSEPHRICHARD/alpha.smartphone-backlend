@@ -2,7 +2,6 @@ package com.alphasmartphone.service;
 
 import com.alphasmartphone.dto.ComparisonDTO;
 import com.alphasmartphone.dto.PhoneDTO;
-import com.alphasmartphone.repository.PhoneRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ComparisonService {
     
-    private final PhoneRepository phoneRepository;
     private final PhoneService phoneService;
     
     public ComparisonDTO comparePhones(List<Long> phoneIds) {

@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +24,8 @@ public class AnalyticsService {
     
     @Transactional
     public void trackEvent(Long phoneId, String eventType, String userAgent, String ipAddress) {
-        Phone phone = phoneRepository.findById(phoneId).orElse(null);
+        if (phoneId == null) return;
+        Phone phone = phoneRepository.findById(Objects.requireNonNull(phoneId)).orElse(null);
         if (phone == null) return;
         
         Analytics analytics = new Analytics();

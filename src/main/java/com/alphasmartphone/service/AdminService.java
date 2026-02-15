@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class AdminService {
     }
     
     public Admin getAdminById(Long id) {
-        return adminRepository.findById(id)
+        return adminRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResourceNotFoundException("Admin not found with id: " + id));
     }
     
@@ -64,7 +65,8 @@ public class AdminService {
     }
     
     public void deleteAdmin(Long id) {
-        Admin admin = getAdminById(id);
-        adminRepository.delete(admin);
+        Admin admin = adminRepository.findById(Objects.requireNonNull(id))
+                .orElseThrow(() -> new ResourceNotFoundException("Admin not found with id: " + id));
+        adminRepository.delete(Objects.requireNonNull(admin));
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ public class WishlistService {
     private final PhoneRepository phoneRepository;
     
     public Wishlist addToWishlist(Long phoneId, String sessionId) {
-        Phone phone = phoneRepository.findById(phoneId)
+        Phone phone = phoneRepository.findById(Objects.requireNonNull(phoneId))
                 .orElseThrow(() -> new ResourceNotFoundException("Phone not found"));
         
         Wishlist wishlist = new Wishlist();
@@ -34,6 +35,8 @@ public class WishlistService {
     }
     
     public void removeFromWishlist(Long id) {
-        wishlistRepository.deleteById(id);
+        Wishlist wishlist = wishlistRepository.findById(Objects.requireNonNull(id))
+                .orElseThrow(() -> new ResourceNotFoundException("Wishlist not found"));
+        wishlistRepository.delete(Objects.requireNonNull(wishlist));
     }
 }

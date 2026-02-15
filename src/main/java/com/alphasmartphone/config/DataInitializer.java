@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -86,7 +87,7 @@ public class DataInitializer implements CommandLineRunner {
                     "50MP + 50MP + 50MP", "32MP", "Android 13", "5G", false)
             };
             
-            phoneRepository.saveAll(Arrays.asList(phones));
+            phoneRepository.saveAll(Objects.requireNonNull(Arrays.asList(phones)));
             log.info("Sample phones created successfully");
         }
     }

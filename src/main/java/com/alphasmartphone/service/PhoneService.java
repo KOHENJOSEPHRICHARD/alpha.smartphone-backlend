@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,7 +38,7 @@ public class PhoneService {
     }
     
     public PhoneDTO getPhoneById(Long id) {
-        Phone phone = phoneRepository.findById(id)
+        Phone phone = phoneRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResourceNotFoundException("Phone not found with id: " + id));
         phone.setViewCount(phone.getViewCount() + 1);
         phoneRepository.save(phone);
@@ -58,27 +59,27 @@ public class PhoneService {
     
     public PhoneDTO createPhone(PhoneDTO phoneDTO) {
         Phone phone = convertToEntity(phoneDTO);
-        Phone savedPhone = phoneRepository.save(phone);
+        Phone savedPhone = phoneRepository.save(Objects.requireNonNull(phone));
         return convertToDTO(savedPhone);
     }
     
     public PhoneDTO updatePhone(Long id, PhoneDTO phoneDTO) {
-        Phone phone = phoneRepository.findById(id)
+        Phone phone = phoneRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResourceNotFoundException("Phone not found with id: " + id));
         
         updatePhoneFromDTO(phone, phoneDTO);
-        Phone updatedPhone = phoneRepository.save(phone);
+        Phone updatedPhone = phoneRepository.save(Objects.requireNonNull(phone));
         return convertToDTO(updatedPhone);
     }
     
     public void deletePhone(Long id) {
-        Phone phone = phoneRepository.findById(id)
+        Phone phone = phoneRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResourceNotFoundException("Phone not found with id: " + id));
-        phoneRepository.delete(phone);
+        phoneRepository.delete(Objects.requireNonNull(phone));
     }
     
     public void incrementInquiryCount(Long id) {
-        Phone phone = phoneRepository.findById(id)
+        Phone phone = phoneRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResourceNotFoundException("Phone not found with id: " + id));
         phone.setInquiryCount(phone.getInquiryCount() + 1);
         phoneRepository.save(phone);

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +30,7 @@ public class InquiryService {
     }
     
     public InquiryDTO getInquiryById(Long id) {
-        Inquiry inquiry = inquiryRepository.findById(id)
+        Inquiry inquiry = inquiryRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResourceNotFoundException("Inquiry not found with id: " + id));
         return convertToDTO(inquiry);
     }
@@ -49,7 +50,7 @@ public class InquiryService {
         inquiry.setStatus(Inquiry.InquiryStatus.NEW);
         
         if (inquiryDTO.getPhoneId() != null) {
-            Phone phone = phoneRepository.findById(inquiryDTO.getPhoneId())
+            Phone phone = phoneRepository.findById(Objects.requireNonNull(inquiryDTO.getPhoneId()))
                     .orElseThrow(() -> new ResourceNotFoundException("Phone not found with id: " + inquiryDTO.getPhoneId()));
             inquiry.setPhone(phone);
             phoneService.incrementInquiryCount(phone.getId());
@@ -60,7 +61,7 @@ public class InquiryService {
     }
     
     public InquiryDTO updateInquiryStatus(Long id, Inquiry.InquiryStatus status, String adminNotes) {
-        Inquiry inquiry = inquiryRepository.findById(id)
+        Inquiry inquiry = inquiryRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResourceNotFoundException("Inquiry not found with id: " + id));
         
         inquiry.setStatus(status);
@@ -73,9 +74,9 @@ public class InquiryService {
     }
     
     public void deleteInquiry(Long id) {
-        Inquiry inquiry = inquiryRepository.findById(id)
+        Inquiry inquiry = inquiryRepository.findById(Objects.requireNonNull(id))
                 .orElseThrow(() -> new ResourceNotFoundException("Inquiry not found with id: " + id));
-        inquiryRepository.delete(inquiry);
+        inquiryRepository.delete(Objects.requireNonNull(inquiry));
     }
     
     private InquiryDTO convertToDTO(Inquiry inquiry) {
